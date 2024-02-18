@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model events {
+  id       Int    @id @default(autoincrement())
+  module   String
+  fullname String
+  type     String
+  week     Int
+  room     String
+  day      Int
+  group    String
+  teacher  String
+  hDeb     String
+  hFin     String
+}
