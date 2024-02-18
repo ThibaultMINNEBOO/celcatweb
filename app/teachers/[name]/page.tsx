@@ -6,6 +6,7 @@ import {useState} from "react";
 import Pagination from "@/components/Pagination";
 import WeekSelect from "@/components/WeekSelect";
 import DaySelect from "@/components/DaySelect";
+import Courses from "@/components/Courses";
 
 const client = new QueryClient();
 
@@ -24,7 +25,7 @@ function Page({ params }: { params: { name: string } }) {
     const {isPending, error, data} = useQuery({
         queryKey: [page, week, day],
         queryFn: () =>
-            fetch(`/api/teachers/${params.name}?week=${week}&day=${day}`).then((res) => res.json()),
+            fetch(`/api/teachers/${params.name}?week=${week}&day=${day}&page=${page}`).then((res) => res.json()),
     });
 
     if (isPending) return <Loader />
@@ -38,6 +39,9 @@ function Page({ params }: { params: { name: string } }) {
                 <WeekSelect onChange={(week: number) => setWeek(week)} week={week} />
                 <DaySelect day={day} onChange={(day: number) => setDay(day)} />
             </div>
+
+            <Courses courses={data.events} />
+
             {data.maxPages !== 1 && <div className="fixed bottom-5 flex items-center justify-center w-full">
                 <Pagination onClick={(numPage: number) => setPage(numPage)} actualPage={data.actualPage}
                             maxPages={data.maxPages}/>

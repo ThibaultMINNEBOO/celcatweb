@@ -33,14 +33,14 @@ function Teachers() {
     const {isPending, error, data} = useQuery({
         queryKey: [page],
         refetchOnMount: true,
-        queryFn: () => fetch(`/api/teachers?page=${page}&limit=20`).then((res) => res.json())
+        queryFn: () => fetch(`/api/teachers?page=${page}&limit=10`).then((res) => res.json())
     });
 
   if (isPending) return <Loader />
 
   return (
       <main className="flex gap-10 items-center justify-center">
-          <div className="flex flex-col gap-5 items-center justify-center mb-20">
+          <div className="flex flex-row flex-wrap gap-5 items-center justify-center mb-20">
               {data && data.teachers.map((res: { teacher: string }, i: number) => {
                   return (<Teacher teacher={res.teacher} key={res.teacher}/>)
               })}
