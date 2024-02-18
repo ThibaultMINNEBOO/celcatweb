@@ -2,10 +2,11 @@ version: '3.7'
 
 services:
   db:
+    container_name: celcatweb_db
     image: mariadb:latest
     environment:
-      MYSQL_ROOT_PASSWORD: 120311
-      MYSQL_DATABASE: miaou
+      MYSQL_ROOT_PASSWORD: my-password
+      MYSQL_DATABASE: celcatweb
     restart: always
 
   app:
@@ -14,7 +15,7 @@ services:
       dockerfile: Dockerfile
       target: deploy
     environment:
-      DATABASE_URL: "mysql://root:120311@db:3306/miaou"
+      DATABASE_URL: "mysql://root:my-password@db:3306/celcatweb"
     ports:
       - "3300:3000"
     depends_on:

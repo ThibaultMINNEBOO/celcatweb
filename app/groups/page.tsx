@@ -6,26 +6,28 @@ import {useState} from "react";
 import Pagination from "@/components/Pagination";
 import WeekSelect from "@/components/WeekSelect";
 import DaySelect from "@/components/DaySelect";
+import GroupSelect from '@/components/GroupSelect';
 import Courses from "@/components/Courses";
 
 const client = new QueryClient();
 
-export default function Root({ params }: { params: { name: string }}) {
+export default function Root() {
     return <QueryClientProvider client={client}>
-        <Page params={params} />
+        <Page />
     </QueryClientProvider>
 }
 
-function Page({ params }: { params: { name: string } }) {
+function Page() {
 
-    const [page, setPage] = useState(1)
-    const [week, setWeek] = useState(36)
-    const [day, setDay] = useState(0)
+    const [page, setPage] = useState(1);
+    const [week, setWeek] = useState(36);
+    const [day, setDay] = useState(0);
+    const [group, setGroup] = useState('INF-S1-TD1');
 
     const {isPending, error, data} = useQuery({
-        queryKey: [page, week, day],
+        queryKey: [page, week, day, group],
         queryFn: () =>
-            fetch(`/api/teachers/${params.name}?week=${week}&day=${day}&page=${page}`).then((res) => res.json()),
+            fetch(`/api/groups/${group}?week=${week}&day=${day}&page=${page}`).then((res) => res.json()),
     });
 
     if (isPending) return <Loader />
@@ -34,12 +36,11 @@ function Page({ params }: { params: { name: string } }) {
         setPage(1);
     }
 
-    const name = decodeURIComponent(params.name)
-
     return (
         <main className="flex gap-10 items-center mt-5 justify-center flex-col">
-            <h1 className="text-3xl font-bold">Cours de <span className="text-primary">{name}</span></h1>
-            <div className="flex gap-4 w-full justify-center flex-wrap">
+            <h1 className="text-3xl font-bold">Cours du groupe <span className="text-primary">{group}</span></h1>
+            <div className="flex gap-4 w-full justify-center">
+                <GroupSelect group={group} onChange={(group: string) => setGroup(group)} />
                 <WeekSelect onChange={(week: number) => setWeek(week)} week={week} />
                 <DaySelect day={day} onChange={(day: number) => setDay(day)} />
             </div>

@@ -1,3 +1,5 @@
+'use client'
+
 import Link from "next/link";
 import {PropsWithChildren} from "react";
 
@@ -24,8 +26,8 @@ export default function Navbar({ children }: PropsWithChildren) {
                 {children}
             </ul>
         </div>
-        <div className="navbar-end">
-            <a className="btn">Button</a>
+        <div className="navbar-end flex">
+            <a className="btn">Made with ❤️ by Thibault</a>
         </div>
     </div>)
 }

@@ -16,8 +16,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
-    <html lang="en" data-theme="night">
+    <html lang="en">
       <body className={inter.className}>
       <Navbar>
           <li><Link href="/teachers">Professeurs</Link></li>

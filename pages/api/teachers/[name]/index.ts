@@ -37,7 +37,7 @@ export default async function hander(
             }
         },
         take: resultPerPages,
-        skip: offset
+        skip: offset,
     } as {});
 
     res.status(200).json({ events, maxPages, actualPage })

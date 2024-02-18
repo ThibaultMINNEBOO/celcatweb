@@ -1,5 +1,6 @@
 import {Course} from "@/components/Courses";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Course({ course }: { course: Course }) {
     const splitTeacherName = course.teacher.split(" ");
@@ -18,8 +19,9 @@ export default function Course({ course }: { course: Course }) {
                         <span className="text-xl">{initials}</span>
                     </div>
                 </div>
-                <span className="ml-4">{course.teacher}</span>
+                <Link href={`/teachers/${course.teacher}`} className="ml-4 hover:text-primary transition duration-400">{course.teacher}</Link>
             </p>
+            <span className="badge badge-primary mb-5">{course.type}</span>
 
             <button className="btn mb-5">
                 Groupe
