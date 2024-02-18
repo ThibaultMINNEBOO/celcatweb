@@ -3,7 +3,7 @@
 import {QueryClient, QueryClientProvider, useQuery} from "@tanstack/react-query";
 import Loader from "@/components/Loader";
 import Pagination from "@/components/Pagination";
-import {useState} from "react";
+import {Suspense, useState} from "react";
 import {ReadonlyURLSearchParams, useSearchParams} from "next/navigation";
 import Teacher from "@/components/Teacher";
 
@@ -12,7 +12,9 @@ const queryClient = new QueryClient();
 export default function Root() {
     return (
         <QueryClientProvider client={queryClient}>
-            <Teachers />
+            <Suspense fallback={<Loader/>}>
+                <Teachers/>
+            </Suspense>
         </QueryClientProvider>
     );
 }
@@ -31,7 +33,7 @@ function Teachers() {
     const {isPending, error, data} = useQuery({
         queryKey: [page],
         refetchOnMount: true,
-        queryFn: () => fetch(`http://localhost:3000/api/teachers?page=${page}&limit=20`).then((res) => res.json())
+        queryFn: () => fetch(`/api/teachers?page=${page}&limit=20`).then((res) => res.json())
     });
 
   if (isPending) return <Loader />

@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  db:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 120311
+      MYSQL_DATABASE: miaou
+    restart: always
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: deploy
+    environment:
+      DATABASE_URL: "mysql://root:120311@db:3306/miaou"
+    ports:
+      - "3300:3000"
+    depends_on:
+      - db
