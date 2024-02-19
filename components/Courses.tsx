@@ -1,4 +1,5 @@
 import Course from "@/components/Course";
+import ResultsNotFound from "@/components/ResultsNotFound";
 
 export type Course = {
     id: number,
@@ -24,6 +25,7 @@ export default function Courses({ courses }: ModuleProps) {
             {courses.map((course) => {
                 return <Course key={course.id} course={course} />
             })}
+            {courses.length === 0 && <ResultsNotFound />}
         </div>
     )
 }

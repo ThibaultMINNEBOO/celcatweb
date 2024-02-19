@@ -15,7 +15,7 @@ export default async function handler(
     const resultPerPages = parseInt(limit.toString());
     const actualPage = parseInt(page.toString());
 
-    const offset = (resultPerPages*(actualPage-1))+1
+    const offset = actualPage === 1 ? 0 : (resultPerPages*(actualPage-1))
 
     const maxResults = await db.$queryRaw`SELECT COUNT(DISTINCT teacher) as nbTeachers FROM events WHERE teacher NOT LIKE 'INF%'` as {nbTeachers: number}[];
     const nbTeachers = parseInt(maxResults[0].nbTeachers.toString())

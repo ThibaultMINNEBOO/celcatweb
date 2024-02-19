@@ -16,7 +16,7 @@ export default async function hander(
     const resultPerPages = 3;
     const offset = actualPage === 1 ? 0 : (resultPerPages*(actualPage-1))
 
-    const maxResults = await db.$queryRaw`SELECT COUNT(module) as nbModules FROM events WHERE teacher LIKE ${name} AND week = ${week} AND day = ${day}` as { nbModules: bigint }[]
+    const maxResults = await db.$queryRaw`SELECT COUNT(module) as nbModules FROM events WHERE teacher NOT LIKE 'INF%' AND module LIKE ${name} AND week = ${week} AND day = ${day}` as { nbModules: bigint }[]
 
     const nbModules = parseInt(maxResults[0].nbModules.toString())
 
@@ -24,10 +24,15 @@ export default async function hander(
 
     const events= await db.events.findMany({
         where: {
-            teacher: {
+            module: {
                 equals: name as string,
             },
             AND: {
+                NOT: {
+                    teacher: {
+                        contains: 'INF%'
+                    }
+                },
                 week: {
                     equals: parseInt(week as string)
                 },
@@ -43,7 +48,7 @@ export default async function hander(
                 hDeb: 'asc'
             }
         ]
-    } as {});
+    });
 
     res.status(200).json({ events, maxPages, actualPage })
 }
