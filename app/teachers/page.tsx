@@ -40,7 +40,7 @@ function Teachers() {
 
   return (
       <main className="flex gap-10 items-center justify-center">
-          <div className="flex flex-row flex-wrap gap-5 items-center justify-center mb-20">
+          <div className="flex flex-row flex-wrap gap-5 items-center justify-center mb-20 mt-16">
               {data && data.teachers.map((res: { teacher: string }, i: number) => {
                   return (<Teacher teacher={res.teacher} key={res.teacher}/>)
               })}
